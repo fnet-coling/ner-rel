@@ -36,7 +36,7 @@ tf.app.flags.DEFINE_boolean("batch_train", False, "Use batch training.")
 tf.app.flags.DEFINE_boolean("type_constraint", False, "Use type constraint during sampling.")
 tf.app.flags.DEFINE_string("save_dir", "save/" + time.strftime("%d%m%Y_%H%M%S", time.localtime()),
                            "Where to save model and its configuration, always last will be kept.")
-tf.app.flags.DEFINE_string("model", "DistMult",
+tf.app.flags.DEFINE_string("model", "ModelE",
                            "Model architecture or combination thereof split by comma of: "
                            "'DistMult', 'DistMult', 'ModelE', 'ModelO', 'ModelN', 'WeightedModelO'")
 tf.app.flags.DEFINE_string("observed_sets", "train_text", "Which sets to observe for observed models.")
@@ -150,7 +150,7 @@ with tf.Session() as sess:
         # already fetch next batch parallel to running model
         next_batch = sample_next_batch()
 
-        loss += model.step(sess, pos, negs, mode)
+        loss += model.step(sess, pos, negs, mode) #update the paratmers and return the accumulated loss
         step_time += (time.time() - start_time)
 
         sys.stdout.write("\r%.1f%% Loss: %.3f" %
